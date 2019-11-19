@@ -2,6 +2,8 @@
 #include <cctype>
 #include <iostream>
 #include "FlightPlanLanguage.h"
+#include <regex>
+
 
 
 // Flight Plan Language class version 1.2
@@ -48,7 +50,42 @@ void FlightPlanLanguage::parseLine(string line)
 	int num_tokens = 0;
 
 	// Insert your code here
-
+	string word = "";
+	bool isDelimeter = false;
+	for (unsigned int i = 0; i < line.length(); i++)
+	{
+		if (num_tokens < 3)
+		{
+			if (line.at(i) == '<')
+			{
+				isDelimeter = true;
+			}
+			if (!isblank(line[i]) || isDelimeter)
+			{
+				word += line.at(i);
+			}
+			else if (isblank(line[i]) && i < line.length() || isDelimeter)
+			{
+				if (!isblank(line[i + 1]) && i != 0)
+				{
+					isDelimeter = false;
+					tokens[num_tokens] = word;
+					word = "";
+					num_tokens++;
+				}
+			}
+			if (i == line.length() - 1)
+			{
+				isDelimeter = false;
+				tokens[num_tokens] = word;
+				num_tokens++;
+			}
+		}
+		else
+		{
+			break;
+		}
+	}
 	addLabelOrInstruction(tokens);
 }
 
@@ -76,6 +113,12 @@ void FlightPlanLanguage::displayIntVariables() const
 void FlightPlanLanguage::displayLabels() const
 {
 	// Insert your code here
+	cout << endl << "Label table: [index | label name | label value]" << endl << endl;
+
+	for (int i = 0; i < num_labels; i++)
+	{
+		cout << '\t' << i << "." << '\t' << label_table[i].name << '\t' << label_table[i].value << endl;
+	}
 }
 
 
@@ -86,6 +129,12 @@ void FlightPlanLanguage::displayLabels() const
 void FlightPlanLanguage::displayDroneCommands() const
 {
 	// Insert your code here
+	cout << endl << "Drone command table: [index | command]" << endl << endl;
+
+	for (int i = 0; i < num_drone_commands; i++)
+	{
+		cout << '\t' << i << "." << '\t' << drone_command_table[i] << endl;
+	}
 }
 
 
@@ -199,6 +248,19 @@ void FlightPlanLanguage::addLabelOrInstruction(string tokens[])
 int FlightPlanLanguage::addDroneCommand(string token)
 {
 	// Insert your code here
+	if (!isDroneCommand(token))
+	{
+		cout << "Not a drone Command." << endl;
+		return -1;
+	}
+	if (num_drone_commands >= MAX_DRONE_COMMANDS)
+	{
+		cout << "No available Entry left." << endl;
+		return -1;
+	}
+	drone_command_table[num_drone_commands] = token;
+	num_drone_commands++;
+	return num_drone_commands - 1;
 }
 
 
@@ -210,6 +272,20 @@ int FlightPlanLanguage::addDroneCommand(string token)
 bool FlightPlanLanguage::isVariable(string token) const
 {
 	// Insert your code here
+	if (!isalpha(token[0]))
+	{
+		return false;
+	}
+	int length = token.length();
+	if (token[length - 1] == ':')
+	{
+		return false;
+	}
+	if (isOpcode(token))
+	{
+		return false;
+	}
+	return true;
 }
 
 
@@ -220,6 +296,7 @@ bool FlightPlanLanguage::isVariable(string token) const
 bool FlightPlanLanguage::isIntConstant(string token) const
 {
 	// Insert your code here
+	return regex_match(token, regex("(\\+|-)?[0-9]$"));
 }
 
 
@@ -267,6 +344,15 @@ bool FlightPlanLanguage::isOpcode(string token) const
 bool FlightPlanLanguage::isDroneCommand(string token) const
 {
 	// Insert your code here
+	if (token.length() < 2)
+	{
+		return false;
+	}
+	if (token[0] == '<' && token[token.length() - 1] == '>')
+	{
+		return true;
+	}
+	return false;
 }
 
 
@@ -325,6 +411,18 @@ int FlightPlanLanguage::defineIntVariable(string token1, string token2)
 int FlightPlanLanguage::lookupLabel(string token) const
 {
 	// Insert your code here
+	if (token[token.length() - 1] == ':')
+	{
+		token = token.substr(0, token.length() - 1);
+	}
+	for (int i = 0; i < num_labels; i++)
+	{
+		if (label_table[i].name == token)
+		{
+			return label_table[i].value;
+		}
+	}
+	return -1;
 }
 
 
@@ -338,6 +436,25 @@ int FlightPlanLanguage::lookupLabel(string token) const
 int FlightPlanLanguage::defineLabel(string token)
 {
 	// Insert your code here
+	if (token[token.length() - 1] == ':')
+	{
+		token = token.substr(0, token.length() - 1);
+	}
+	int lc = lookupLabel(token);
+	if (lc != -1)
+	{
+		cout << "The Label Already Exists" << endl;
+		return lc;
+	}
+	if (lc == -1)
+	{
+		label_table[num_labels].name = token;
+		label_table[num_labels].value = num_instructions;
+		num_labels++;
+		return num_labels;
+	}
+	cout << "Position availibility unavailable." << endl;
+	return -1;
 }
 
 
@@ -455,6 +572,11 @@ string FlightPlanLanguage::opcodeToString(Opcodes opcode) const
 string FlightPlanLanguage::indexToIntVariableName(int index) const
 {
 	// Insert your code here
+	if (index < num_int_variables)
+	{
+		return int_variable_table[index].name;
+	}
+	return "Array index out of bounds. Value : " + index;
 }
 
 
@@ -465,6 +587,11 @@ string FlightPlanLanguage::indexToIntVariableName(int index) const
 string FlightPlanLanguage::indexToLabel(int index) const
 {
 	// Insert your code here
+	if (index < MAX_LABELS)
+	{
+		return label_table[index].name;
+	}
+	return "Array index out of bounds.";
 }
 
 
@@ -497,6 +624,11 @@ string FlightPlanLanguage::instructionIndexToLabel(int index) const
 string FlightPlanLanguage::indexToDroneCommand(int index) const
 {
 	// Insert your code here
+	if (index < MAX_DRONE_COMMANDS)
+	{
+		return drone_command_table[index];
+	}
+	return "Array index out of bounds.";
 }
 
 
