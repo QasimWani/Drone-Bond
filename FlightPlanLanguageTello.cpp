@@ -48,7 +48,6 @@ void FlightPlanLanguage::executeTelloCommand(int index)
 		else {
 			if (command.substr(0, 6) == "<move ") {
 				// Insert your code here
-				lookupIntVariable("move");
 				string cmd = command.substr(5);
 				string delimiter = " %";
 
