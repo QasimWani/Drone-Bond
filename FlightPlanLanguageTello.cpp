@@ -48,6 +48,33 @@ void FlightPlanLanguage::executeTelloCommand(int index)
 		else {
 			if (command.substr(0, 6) == "<move ") {
 				// Insert your code here
+				lookupIntVariable("move");
+				string cmd = command.substr(5);
+				string delimiter = " %";
+
+				size_t pos = 0;
+				string token;
+				int i = 0;
+				int positions[3];
+				
+				while ((pos = cmd.find(delimiter)) != string::npos) {
+					token = cmd.substr(0, pos);
+					cmd.erase(0, pos + delimiter.length());
+					if (token != "\0")
+					{
+						positions[i] = int_variable_table[lookupIntVariable(token)].value;
+						i++;
+					}
+				}
+				positions[i] = int_variable_table[lookupIntVariable(cmd)].value;
+				
+
+				Coordinates move_tello;
+				move_tello.x = positions[0];
+				move_tello.y = positions[1];
+				move_tello.z = positions[2];
+
+				tello_drone->move(move_tello);
 			}
 			else if (command == "<arm>") {
 				tello_drone->arm();
