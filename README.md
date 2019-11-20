@@ -6,7 +6,7 @@ Tello Drone Movements to the James Bond theme song
 > 2. ~~main.cpp~~
 > 3. Unit Testing
 > 4. Tello Drone Communication Protocol Testing (TCP/UDP)
-> 5. Building markup for James Bond gateway
+> 5. Building FPL setup for James Bond gateway
 > 6. Testing JB.
 > 7. Filming the Video.
 #### Celebrating?
