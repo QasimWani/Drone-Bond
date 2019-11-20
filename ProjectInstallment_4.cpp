@@ -1,21 +1,46 @@
-// main.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include "pch.h"
 #include <iostream>
+#include <fstream>
+#include <string>
+#include "FlightPlanLanguage.h"
+
+
+// Provides an example of using version 1.2 of the FlightPlanLanguage class, which
+// supports FPL parsing, optional execution tracing, and optional drone communication.
+// The program prompts for the name of a FPL file, parses the file, displays the
+// parse tables generated, and possibly executes the FPL program according to the
+// modes selected in the FPL class constructor.
+
+
+using namespace std;
+
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
+	FlightPlanLanguage flight_plan(TRACE_ALL_OPCODES_MODE, NO_DRONE_MODE);
+
+	string file_name;
+
+	cout << "Enter FPL file name: ";
+
+	cin >> file_name;
+
+	ifstream fppl_file(file_name);
+
+	if (fppl_file.is_open()) {
+		string line;
+		while (getline(fppl_file, line)) {
+			flight_plan.parseLine(line);
+		}
+		flight_plan.displayIntVariables();
+		flight_plan.displayLabels();
+		flight_plan.displayDroneCommands();
+		flight_plan.displayInstructions();
+		flight_plan.executeProgram();
+	}
+	else {
+		cout << "File " << file_name << " not found" << endl;
+	}
+
+	return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file

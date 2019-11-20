@@ -1,7 +1,4 @@
-﻿  FlightPlanLanguageExecute.cpp
-  FlightPlanLanguageParse.cpp
-  FlightPlanLanguageTello.cpp
-  Generating Code...
+﻿  ProjectInstallment_4.cpp
 FlightPlanLanguageTello.obj : error LNK2019: unresolved external symbol "public: bool __thiscall Tello::canInitialize(void)" (?canInitialize@Tello@@QAE_NXZ) referenced in function "private: void __thiscall FlightPlanLanguage::executeTelloCommand(int)" (?executeTelloCommand@FlightPlanLanguage@@AAEXH@Z)
 FlightPlanLanguageTello.obj : error LNK2019: unresolved external symbol "public: void __thiscall Tello::arm(void)" (?arm@Tello@@QAEXXZ) referenced in function "private: void __thiscall FlightPlanLanguage::executeTelloCommand(int)" (?executeTelloCommand@FlightPlanLanguage@@AAEXH@Z)
 FlightPlanLanguageTello.obj : error LNK2019: unresolved external symbol "public: void __thiscall Tello::takeoff(void)" (?takeoff@Tello@@QAEXXZ) referenced in function "private: void __thiscall FlightPlanLanguage::executeTelloCommand(int)" (?executeTelloCommand@FlightPlanLanguage@@AAEXH@Z)
