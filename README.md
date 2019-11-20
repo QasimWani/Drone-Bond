@@ -2,7 +2,7 @@
 Tello Drone Movements to the James Bond theme song 
 
 ## To DO:
-> 1. FlightPlanLanguageExecute.cpp
+> 1. ~~FlightPlanLanguageExecute.cpp~~
 > 2. main.cpp
 > 3. Unit Testing
 > 4. Tello Drone Communication Prootocol Testing (TCP/UDP)
