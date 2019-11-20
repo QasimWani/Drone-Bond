@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -20,16 +20,22 @@ Part 1. FPLParse.cpp
 Part 2. FPLTello.cpp
 Part 3. FPLExecute.cpp
 **/
+int case_num = 0;
 
 int test_isVariable(string variable)
 {
 	FlightPlanLanguage FLP(TRACE_ALL_OPCODES_MODE, NO_DRONE_MODE);
 	if (!FLP.isVariable(variable))
 	{
-		cout << "\"" << variable  << "\"" << " is not a variable.\tTest Failed." << endl;
+		cout << case_num << ". " << "\"" << variable  << "\"" << " is not a variable.\tTest Failed." << endl;
 		return 1;
 
 	}
+	else
+	{
+		cout << case_num << ". " << "test_isVariable passed." << endl;
+	}
+	case_num++;
 	return 0;
 }
 
@@ -38,9 +44,14 @@ int test_isIntConstant(string number)
 	FlightPlanLanguage FLP(TRACE_ALL_OPCODES_MODE, NO_DRONE_MODE);
 	if (!FLP.isIntConstant(number))
 	{
-		cout << "\"" << number << "\"" << " is not a number.\tTest Failed." << endl;
+		cout << case_num << "\"" << number << "\"" << " is not a number.\tTest Failed." << endl;
 		return 1;
 	}
+	else
+	{
+		cout << case_num << ". " << "test_isIntConstant passed." << endl;
+	}
+	case_num++;
 	return 0;
 }
 
@@ -50,9 +61,14 @@ int test_isLabel(string label)
 
 	if (!FLP.isLabel(label))
 	{
-		cout << "\"" << label << "\"" << " is not a label.\tTest Failed." << endl;
+		cout << case_num << "\"" << label << "\"" << " is not a label.\tTest Failed." << endl;
 		return 1;
 	}
+	else
+	{
+		cout << case_num << ". " << "test_isLabel passed." << endl;
+	}
+	case_num++;
 	return 0;
 }
 
@@ -61,9 +77,14 @@ int test_isOpcode(string opcode)
 	FlightPlanLanguage FLP(TRACE_ALL_OPCODES_MODE, NO_DRONE_MODE);
 	if (!FLP.isOpcode(opcode))
 	{
-		cout << "\"" << opcode << "\"" << " is not a valid opcode.\tTest Failed." << endl;
+		cout << case_num << "\"" << opcode << "\"" << " is not a valid opcode.\tTest Failed." << endl;
 		return 1;
 	}
+	else
+	{
+		cout << case_num << ". " << "test_isOpcode passed." << endl;
+	}
+	case_num++;
 	return 0;
 }
 
@@ -72,9 +93,14 @@ int test_isDroneCommand(string command)
 	FlightPlanLanguage FLP(TRACE_ALL_OPCODES_MODE, NO_DRONE_MODE);
 	if (!FLP.isDroneCommand(command))
 	{
-		cout << "\"" << command << "\"" << " is not a drone command" << endl;
+		cout << case_num << "\"" << command << "\"" << " is not a drone command.\tTest failed." << endl;
 		return 1;
 	}
+	else
+	{
+		cout << case_num << ". " << "test_isDroneCommand passed." << endl;
+	}
+	case_num++;
 	return 0;
 }
 
@@ -127,11 +153,11 @@ int main()
 
 	cout << "\n\n\nInitializing Test cases: \n" << endl;
 
-	cout << "Testing Parse.cpp" << endl << endl;
+	cout << "Testing Parse.cpp..." << endl << endl;
 
 	int result = test_isVariable(unitTests.test_parse.is_int) + test_isIntConstant(unitTests.test_parse.is_const) + test_isLabel(unitTests.test_parse.is_label) + test_isOpcode(unitTests.test_parse.is_opcode) + test_isDroneCommand(unitTests.test_parse.is_drone_command);
 
-	cout << "\n\n\nTotal Tests : 5\t" << "Passed : " << 5 - result << "\tFailed : " << result << endl;
+	cout << "\nTotal Tests : 5\tPassed : " << 5 - result << "\tFailed : " << result << endl;
 
 	if(result > 0)
 	{
