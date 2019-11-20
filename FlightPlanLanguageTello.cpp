@@ -66,7 +66,6 @@ void FlightPlanLanguage::executeTelloCommand(int index)
 					}
 				}
 				positions[i] = int_variable_table[lookupIntVariable(cmd)].value;
-				
 
 				Coordinates move_tello;
 				move_tello.x = positions[0];

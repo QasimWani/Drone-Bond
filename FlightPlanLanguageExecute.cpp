@@ -20,12 +20,12 @@ using namespace std;
 void FlightPlanLanguage::executeProgram()
 {
 	cout << endl << "Program execution: [instruction index | operation]"
-		 << endl << endl;
+		<< endl << endl;
 
-	timer_start           = clock();
-	program_counter       = 0;
+	timer_start = clock();
+	program_counter = 0;
 	compare_returns_equal = false;
-	end_program           = false;
+	end_program = false;
 
 	while (!end_program) {
 		executeNextInstruction();
@@ -86,7 +86,7 @@ void FlightPlanLanguage::executeNextInstruction()
 		break;
 	default:
 		cout << "Undefined instruction opcode (" << opcode << ") at location "
-			 << program_counter << " - program terminated" << endl;
+			<< program_counter << " - program terminated" << endl;
 		end_program = true;
 		break;
 	}
@@ -114,7 +114,8 @@ void FlightPlanLanguage::executeIntInstruction()
 
 void FlightPlanLanguage::executeAddInstruction()
 {
-	// Insert your code here
+	// Insert your code below
+
 	int operand1 = instruction_table[program_counter].operand1;
 	int operand2 = instruction_table[program_counter].operand2;
 
@@ -125,7 +126,6 @@ void FlightPlanLanguage::executeAddInstruction()
 	}
 	int_variable_table[operand1].value += operand2;
 	program_counter++;
-
 }
 
 
@@ -133,7 +133,8 @@ void FlightPlanLanguage::executeAddInstruction()
 
 void FlightPlanLanguage::executeSubInstruction()
 {
-	// Insert your code here
+	// Insert your code below
+
 	int operand1 = instruction_table[program_counter].operand1;
 	int operand2 = instruction_table[program_counter].operand2;
 
@@ -151,7 +152,9 @@ void FlightPlanLanguage::executeSubInstruction()
 
 void FlightPlanLanguage::executeMulInstruction()
 {
-	// Insert your code here
+
+	// Insert your code below
+
 	int operand1 = instruction_table[program_counter].operand1;
 	int operand2 = instruction_table[program_counter].operand2;
 
@@ -175,7 +178,7 @@ void FlightPlanLanguage::executeDivInstruction()
 
 	if (operand2 == 0) {
 		cout << "Attempted division by zero at location " << program_counter
-			 << " - program terminated" << endl;
+			<< " - program terminated" << endl;
 		end_program = true;
 	}
 	else {
@@ -195,12 +198,12 @@ void FlightPlanLanguage::executeDivInstruction()
 void FlightPlanLanguage::executeSetInstruction()
 {
 	// Insert your code here
+
 	int operand1 = instruction_table[program_counter].operand1;
 	int operand2 = instruction_table[program_counter].operand2;
 
 	if (trace_mode == TRACE_ALL_OPCODES_MODE) {
-		int old_value = int_variable_table[operand1].value;
-		cout << indexToIntVariableName(operand1) << operand2 << endl;
+		cout << indexToIntVariableName(operand1) << " = " << operand2 << endl;
 	}
 	int_variable_table[operand1].value = operand2;
 	program_counter++;
@@ -211,8 +214,8 @@ void FlightPlanLanguage::executeSetInstruction()
 
 void FlightPlanLanguage::executeCmpInstruction()
 {
-	int  operand1         = instruction_table[program_counter].operand1;
-	int  operand2         = instruction_table[program_counter].operand2;
+	int  operand1 = instruction_table[program_counter].operand1;
+	int  operand2 = instruction_table[program_counter].operand2;
 	bool constant_version = instruction_table[program_counter].constant_version;
 
 	if (trace_mode == TRACE_ALL_OPCODES_MODE) {
@@ -224,8 +227,7 @@ void FlightPlanLanguage::executeCmpInstruction()
 		compare_returns_equal = (int_variable_table[operand1].value == operand2);
 	}
 	else {
-		compare_returns_equal = (int_variable_table[operand1].value ==
-			                     int_variable_table[operand2].value);
+		compare_returns_equal = (int_variable_table[operand1].value == int_variable_table[operand2].value);
 	}
 
 	program_counter++;
@@ -261,6 +263,7 @@ void FlightPlanLanguage::executeBeqInstruction()
 void FlightPlanLanguage::executeBneInstruction()
 {
 	// Insert your code here
+
 	int operand1 = instruction_table[program_counter].operand1;
 
 	if (trace_mode == TRACE_ALL_OPCODES_MODE) {
@@ -286,6 +289,7 @@ void FlightPlanLanguage::executeBneInstruction()
 void FlightPlanLanguage::executeBraInstruction()
 {
 	// Insert your code here
+
 	int operand1 = instruction_table[program_counter].operand1;
 
 	if (trace_mode == TRACE_ALL_OPCODES_MODE) {
@@ -302,10 +306,14 @@ void FlightPlanLanguage::executeCmdInstruction()
 {
 	int operand1 = instruction_table[program_counter].operand1;
 
-	if (trace_mode == TRACE_ALL_OPCODES_MODE) {
-		cout << "BEQ taken to label " << indexToLabel(operand1) << endl;
+	if ((trace_mode == TRACE_ALL_OPCODES_MODE) || (trace_mode == TRACE_CMD_NOP_MODE)) {
+		cout << "CMD " << indexToDroneCommand(operand1) << endl;
 	}
-	program_counter = label_table[operand1].value;
+
+	if (drone_mode == TELLO_DRONE_MODE) {
+		executeTelloCommand(operand1);
+	}
+
 	program_counter++;
 }
 
@@ -321,8 +329,8 @@ void FlightPlanLanguage::executeCmdInstruction()
 
 void FlightPlanLanguage::executeNopInstruction()
 {
-	int  operand1         = instruction_table[program_counter].operand1;
-	int  operand2         = instruction_table[program_counter].operand2;
+	int  operand1 = instruction_table[program_counter].operand1;
+	int  operand2 = instruction_table[program_counter].operand2;
 	bool constant_version = instruction_table[program_counter].constant_version;
 
 	int wait_until_time;

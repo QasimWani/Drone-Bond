@@ -1,7 +1,2 @@
-﻿  ProjectInstallment_4.cpp
-FlightPlanLanguageTello.obj : error LNK2019: unresolved external symbol "public: bool __thiscall Tello::canInitialize(void)" (?canInitialize@Tello@@QAE_NXZ) referenced in function "private: void __thiscall FlightPlanLanguage::executeTelloCommand(int)" (?executeTelloCommand@FlightPlanLanguage@@AAEXH@Z)
-FlightPlanLanguageTello.obj : error LNK2019: unresolved external symbol "public: void __thiscall Tello::arm(void)" (?arm@Tello@@QAEXXZ) referenced in function "private: void __thiscall FlightPlanLanguage::executeTelloCommand(int)" (?executeTelloCommand@FlightPlanLanguage@@AAEXH@Z)
-FlightPlanLanguageTello.obj : error LNK2019: unresolved external symbol "public: void __thiscall Tello::takeoff(void)" (?takeoff@Tello@@QAEXXZ) referenced in function "private: void __thiscall FlightPlanLanguage::executeTelloCommand(int)" (?executeTelloCommand@FlightPlanLanguage@@AAEXH@Z)
-FlightPlanLanguageTello.obj : error LNK2019: unresolved external symbol "public: void __thiscall Tello::move(struct Coordinates)" (?move@Tello@@QAEXUCoordinates@@@Z) referenced in function "private: void __thiscall FlightPlanLanguage::executeTelloCommand(int)" (?executeTelloCommand@FlightPlanLanguage@@AAEXH@Z)
-FlightPlanLanguageTello.obj : error LNK2019: unresolved external symbol "public: void __thiscall Tello::land(void)" (?land@Tello@@QAEXXZ) referenced in function "private: void __thiscall FlightPlanLanguage::executeTelloCommand(int)" (?executeTelloCommand@FlightPlanLanguage@@AAEXH@Z)
-C:\Users\qasim\OneDrive\Documents\Academia\Computational Eng\Project Installment 4\ProjectInstallment_4\Debug\ProjectInstallment_4.exe : fatal error LNK1120: 5 unresolved externals
+﻿  FlightPlanLanguageParse.cpp
+  ProjectInstallment_4.vcxproj -> C:\Users\qasim\OneDrive\Documents\Academia\Computational Eng\Project Installment 4\ProjectInstallment_4\Debug\ProjectInstallment_4.exe

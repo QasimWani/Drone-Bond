@@ -97,10 +97,10 @@ void FlightPlanLanguage::parseLine(string line)
 void FlightPlanLanguage::displayIntVariables() const
 {
 	cout << endl << "Integer variable table: [index | variable name | initial value]"
-		 << endl << endl;
+		<< endl << endl;
 
 	for (int i = 0; i < num_int_variables; i++) {
-		cout << '\t' << i << '\t' << int_variable_table[i].name << '\t'
+		cout << '\t' << i << "." << '\t' << int_variable_table[i].name << '\t'
 			<< int_variable_table[i].value << endl;
 	}
 }
@@ -315,7 +315,6 @@ bool FlightPlanLanguage::isLabel(string token) const
 			result = true;
 		}
 	}
-
 	return result;
 }
 
@@ -369,7 +368,6 @@ int FlightPlanLanguage::lookupIntVariable(string token) const
 			break;
 		}
 	}
-
 	return index;
 }
 
@@ -576,7 +574,7 @@ string FlightPlanLanguage::indexToIntVariableName(int index) const
 	{
 		return int_variable_table[index].name;
 	}
-	return "Array index out of bounds. Value : " + index;
+	return "Array index out of bounds.";
 }
 
 

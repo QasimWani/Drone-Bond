@@ -41,5 +41,8 @@
     <ClCompile Include="FlightPlanLanguageTello.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TelloApi.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
