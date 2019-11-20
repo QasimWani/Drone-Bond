@@ -129,7 +129,7 @@ int test_is_Tello_Created(Tello *tello_pointer, Tello *compare_with)
 	return 0;
 }
 
-int test_tello_initialization(Tello tello)
+int test_tello_initialization(Tello tello, string expected)
 {
 	if (!tello.canInitialize() || &tello == nullptr)
 	{
@@ -144,8 +144,9 @@ int test_tello_initialization(Tello tello)
 	return 0;
 }
 
-int test_virtual_tello_initialization(Tello *tellow)
+int test_virtual_tello_initialization(enum DroneMode drone_mode, string command, int case_val)
 {
+	FlightPlanLanguage fpl(TRACE_ALL_OPCODES_MODE, drone_mode);
 	/**
 	if (!tellow->canInitialize())
 	{
@@ -158,6 +159,8 @@ int test_virtual_tello_initialization(Tello *tellow)
 	}
 	case_num++;
 	**/
+	fpl.drone_command_table[0] = command;
+	fpl.executeTelloCommand(0);
 	return 0;
 }
 
@@ -201,6 +204,7 @@ int main()
 	
 	struct type_drone_commands
 	{
+		string init;
 		string move;
 		string random_value;
 	};
@@ -240,11 +244,15 @@ int main()
 
 	unitTests.test_tello.location = nullptr;
 	unitTests.test_tello.Tello_move.move = "<move %x %y %z>";
+	unitTests.test_tello.Tello_move.init = "<initialize>";
+
 	unitTests.test_tello.Tello_move.random_value = "<engineering>";
 	
 	
-	int result_2 = test_is_Tello_Created(unitTests.test_tello.location, &unitTests.test_tello.tello_drone) + test_tello_initialization(unitTests.test_tello.tello_drone) + test_virtual_tello_initialization(flight_plan.tello_drone);
+	int result_2 = test_is_Tello_Created(unitTests.test_tello.location, &unitTests.test_tello.tello_drone) + test_tello_initialization(unitTests.test_tello.tello_drone, "expect-null");
 	
+
+	test_virtual_tello_initialization(VIRTUAL_DRONE_MODE, unitTests.test_tello.Tello_move.init, 2);
 	
 	if(result_1  + result_2 > 0)
 	{
