@@ -88,7 +88,7 @@ public:		// member functions intended to be used by clients of the class
 
 	FlightPlanLanguage(TraceMode trace, DroneMode drone);		// constructor
 	~FlightPlanLanguage();										// destructor
-
+	
 	void parseLine(std::string line);
 
 	void displayIntVariables() const;

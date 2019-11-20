@@ -115,6 +115,16 @@ void FlightPlanLanguage::executeIntInstruction()
 void FlightPlanLanguage::executeAddInstruction()
 {
 	// Insert your code here
+	int operand1 = instruction_table[program_counter].operand1;
+	int operand2 = instruction_table[program_counter].operand2;
+
+	if (trace_mode == TRACE_ALL_OPCODES_MODE) {
+		int old_value = int_variable_table[operand1].value;
+		cout << indexToIntVariableName(operand1) << " = " << old_value << " / "
+			<< operand2 << " = " << (old_value + operand2) << endl;
+	}
+	int_variable_table[operand1].value += operand2;
+	program_counter++;
 }
 
 
@@ -123,6 +133,16 @@ void FlightPlanLanguage::executeAddInstruction()
 void FlightPlanLanguage::executeSubInstruction()
 {
 	// Insert your code here
+	int operand1 = instruction_table[program_counter].operand1;
+	int operand2 = instruction_table[program_counter].operand2;
+
+	if (trace_mode == TRACE_ALL_OPCODES_MODE) {
+		int old_value = int_variable_table[operand1].value;
+		cout << indexToIntVariableName(operand1) << " = " << old_value << " / "
+			<< operand2 << " = " << (old_value - operand2) << endl;
+	}
+	int_variable_table[operand1].value -= operand2;
+	program_counter++;
 }
 
 
@@ -131,6 +151,16 @@ void FlightPlanLanguage::executeSubInstruction()
 void FlightPlanLanguage::executeMulInstruction()
 {
 	// Insert your code here
+	int operand1 = instruction_table[program_counter].operand1;
+	int operand2 = instruction_table[program_counter].operand2;
+
+	if (trace_mode == TRACE_ALL_OPCODES_MODE) {
+		int old_value = int_variable_table[operand1].value;
+		cout << indexToIntVariableName(operand1) << " = " << old_value << " / "
+			<< operand2 << " = " << (old_value * operand2) << endl;
+	}
+	int_variable_table[operand1].value *= operand2;
+	program_counter++;
 }
 
 
@@ -164,6 +194,16 @@ void FlightPlanLanguage::executeDivInstruction()
 void FlightPlanLanguage::executeSetInstruction()
 {
 	// Insert your code here
+	int operand1 = instruction_table[program_counter].operand1;
+	int operand2 = instruction_table[program_counter].operand2;
+
+	if (trace_mode == TRACE_ALL_OPCODES_MODE) {
+		int old_value = int_variable_table[operand1].value;
+		cout << indexToIntVariableName(operand1) << " = " << old_value << " / "
+			<< operand2 << " = " << operand2 << endl;
+	}
+	int_variable_table[operand1].value = operand2;
+	program_counter++;
 }
 
 
@@ -221,6 +261,23 @@ void FlightPlanLanguage::executeBeqInstruction()
 void FlightPlanLanguage::executeBneInstruction()
 {
 	// Insert your code here
+	int operand1 = instruction_table[program_counter].operand1;
+
+	if (trace_mode != TRACE_ALL_OPCODES_MODE) {
+		if (compare_returns_equal) {
+			cout << "BNE taken to label " << indexToLabel(operand1) << endl;
+		}
+		else {
+			cout << "BNE skipped" << endl;
+		}
+	}
+
+	if (compare_returns_equal) {
+		program_counter = label_table[operand1].value;
+	}
+	else {
+		program_counter++;
+	}
 }
 
 
@@ -229,6 +286,16 @@ void FlightPlanLanguage::executeBneInstruction()
 void FlightPlanLanguage::executeBraInstruction()
 {
 	// Insert your code here
+	int operand1 = instruction_table[program_counter].operand1;
+
+	if (compare_returns_equal) {
+		cout << "BEQ taken to label " << indexToLabel(operand1) << endl;
+		program_counter = label_table[operand1].value;
+	}
+	else {
+		cout << "BEQ skipped" << endl;
+		program_counter++;
+	}
 }
 
 
