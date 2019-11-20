@@ -1,3 +1,2 @@
-﻿  FlightPlanLanguageParse.cpp
-c:\users\qasim\onedrive\documents\academia\computational eng\project installment 4\projectinstallment_4\projectinstallment_4\flightplanlanguageparse.cpp(353): warning C4715: 'FlightPlanLanguage::isDroneCommand': not all control paths return a value
+﻿  ProjectInstallment_4.cpp
   ProjectInstallment_4.vcxproj -> C:\Users\qasim\OneDrive\Documents\Academia\Computational Eng\Project Installment 4\ProjectInstallment_4\Debug\ProjectInstallment_4.exe

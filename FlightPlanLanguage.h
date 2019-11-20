@@ -98,7 +98,7 @@ public:		// member functions intended to be used by clients of the class
 
 	void executeProgram();
 
-private:	// member functions not intended to be used by clients of the class
+//private:	// member functions not intended to be used by clients of the class
 
 	void addLabelOrInstruction(std::string tokens[]);
 	int  addDroneCommand(std::string token);
