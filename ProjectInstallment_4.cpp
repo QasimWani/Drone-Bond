@@ -26,7 +26,7 @@ int test_isVariable(string variable)
 	FlightPlanLanguage FLP(TRACE_ALL_OPCODES_MODE, NO_DRONE_MODE);
 	if (!FLP.isVariable(variable))
 	{
-		cout << variable << " is not a variable" << endl;
+		cout << "\"" << variable  << "\"" << " is not a variable.\tTest Failed." << endl;
 		return 1;
 
 	}
@@ -38,7 +38,7 @@ int test_isIntConstant(string number)
 	FlightPlanLanguage FLP(TRACE_ALL_OPCODES_MODE, NO_DRONE_MODE);
 	if (!FLP.isIntConstant(number))
 	{
-		cout << number << " is not a number" << endl;
+		cout << "\"" << number << "\"" << " is not a number.\tTest Failed." << endl;
 		return 1;
 	}
 	return 0;
@@ -50,7 +50,7 @@ int test_isLabel(string label)
 
 	if (!FLP.isLabel(label))
 	{
-		cout << label << " is not a label" << endl;
+		cout << "\"" << label << "\"" << " is not a label.\tTest Failed." << endl;
 		return 1;
 	}
 	return 0;
@@ -61,7 +61,7 @@ int test_isOpcode(string opcode)
 	FlightPlanLanguage FLP(TRACE_ALL_OPCODES_MODE, NO_DRONE_MODE);
 	if (!FLP.isOpcode(opcode))
 	{
-		cout << opcode << " is not a valid opcode." << endl;
+		cout << "\"" << opcode << "\"" << " is not a valid opcode.\tTest Failed." << endl;
 		return 1;
 	}
 	return 0;
@@ -72,7 +72,7 @@ int test_isDroneCommand(string command)
 	FlightPlanLanguage FLP(TRACE_ALL_OPCODES_MODE, NO_DRONE_MODE);
 	if (!FLP.isDroneCommand(command))
 	{
-		cout << command << " is not a drone command" << endl;
+		cout << "\"" << command << "\"" << " is not a drone command" << endl;
 		return 1;
 	}
 	return 0;
@@ -119,13 +119,13 @@ int main()
 	};
 
 	Full_Unit_Test unitTests;
-	unitTests.test_parse.is_int = "int";
+	unitTests.test_parse.is_int = "var";
 	unitTests.test_parse.is_const = "+3";
 	unitTests.test_parse.is_label = "right:";
 	unitTests.test_parse.is_opcode = "set";
 	unitTests.test_parse.is_drone_command = "<takeoff>";
 
-	cout << "Initializing Test cases: \n" << endl;
+	cout << "\n\n\nInitializing Test cases: \n" << endl;
 
 	cout << "Testing Parse.cpp" << endl << endl;
 
