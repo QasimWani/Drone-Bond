@@ -142,7 +142,7 @@ public:		// member functions intended to be used by clients of the class
 
 	void executeTelloCommand(int index);
 
-private:	// data members should always have private scope
+//private:	// data members should always have private scope
 
 	static const int MAX_INT_VARIABLES  = 1000;		// maximum number of integer variables allowed
 	static const int MAX_LABELS         = 1000;		// maximum number of labels allowed

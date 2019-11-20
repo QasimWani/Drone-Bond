@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include "FlightPlanLanguage.h"
+#include "TelloApi.h"
 
 
 // Provides an example of using version 1.2 of the FlightPlanLanguage class, which
@@ -20,7 +21,9 @@ Part 1. FPLParse.cpp
 Part 2. FPLTello.cpp
 Part 3. FPLExecute.cpp
 **/
-int case_num = 0;
+int case_num = 1;
+
+// Part 1. Parse.cpp
 
 int test_isVariable(string variable)
 {
@@ -104,6 +107,60 @@ int test_isDroneCommand(string command)
 	return 0;
 }
 
+// Part 2. Tello.cpp
+int test_is_Tello_Created(Tello *tello_pointer, Tello *compare_with)
+{
+	if (tello_pointer == nullptr || compare_with == nullptr)
+	{
+		cout << case_num << ". Null Pointer Detected. Object not created.\tTest Failed." << endl;
+		return 1;
+	}
+	else if(tello_pointer == compare_with)
+	{
+		cout << case_num << ". Object created. However, same pointer location detected. Pointer Location : " << tello_pointer << "\tTest Failed." << endl;
+		return 1;
+	}
+	else
+	{
+		cout << case_num << ". Object created. Pointer location different and none null pointer.\tTest passed." << endl;
+		return 1;
+	}
+	case_num++;
+	return 0;
+}
+
+int test_tello_initialization(Tello tello)
+{
+	if (!tello.canInitialize() || &tello == nullptr)
+	{
+		cout << case_num << ". Tello not successfully initialized. Possible errors:\t1.Not connected via TCP/UDP connection. Configure via your IP v4. address.\t2. Null pointer location passed.\tTest failed." << endl;
+		return 1;
+	}
+	else
+	{
+		cout << case_num << ". Tello initialization successful. Socket Connection instantiated.\tTest passed." << endl;
+	}
+	case_num++;
+	return 0;
+}
+
+int test_virtual_tello_initialization(Tello *tellow)
+{
+	/**
+	if (!tellow->canInitialize())
+	{
+		cout << case_num << ". Tello not successfully initialized. Possible errors:\t1.Not connected via TCP/UDP connection. Configure via your IP v4. address.\t2. Null pointer location passed.\tTest failed." << endl;
+		return 1;
+	}
+	else
+	{
+		cout << case_num << ". Tello initialization successful. Socket Connection instantiated.\tTest passed." << endl;
+	}
+	case_num++;
+	**/
+	return 0;
+}
+
 int main()
 {
 	FlightPlanLanguage flight_plan(TRACE_ALL_OPCODES_MODE, NO_DRONE_MODE);
@@ -139,27 +196,57 @@ int main()
 		string is_opcode;
 		string is_drone_command;
 	};
+
+	//Part 2. Tello Implementation
+	
+	struct type_drone_commands
+	{
+		string move;
+		string random_value;
+	};
+	 
+	struct Tello_test
+	{
+		Tello *location;
+		Tello tello_drone;
+		type_drone_commands Tello_move;
+	};
+	
 	struct Full_Unit_Test
 	{
 		Parse_test test_parse;
+		Tello_test test_tello;
 	};
 
 	Full_Unit_Test unitTests;
+	
+	//Part 1 implementation
 	unitTests.test_parse.is_int = "var";
 	unitTests.test_parse.is_const = "+3";
 	unitTests.test_parse.is_label = "right:";
 	unitTests.test_parse.is_opcode = "set";
 	unitTests.test_parse.is_drone_command = "<takeoff>";
 
+
 	cout << "\n\n\nInitializing Test cases: \n" << endl;
 
 	cout << "Testing Parse.cpp..." << endl << endl;
 
-	int result = test_isVariable(unitTests.test_parse.is_int) + test_isIntConstant(unitTests.test_parse.is_const) + test_isLabel(unitTests.test_parse.is_label) + test_isOpcode(unitTests.test_parse.is_opcode) + test_isDroneCommand(unitTests.test_parse.is_drone_command);
+	int result_1 = test_isVariable(unitTests.test_parse.is_int) + test_isIntConstant(unitTests.test_parse.is_const) + test_isLabel(unitTests.test_parse.is_label) + test_isOpcode(unitTests.test_parse.is_opcode) + test_isDroneCommand(unitTests.test_parse.is_drone_command);
 
-	cout << "\nTotal Tests : 5\tPassed : " << 5 - result << "\tFailed : " << result << endl;
+	cout << "\Parse Test Results : 5\tPassed : " << 5 - result_1 << "\tFailed : " << result_1 << endl;
 
-	if(result > 0)
+	//Part 2 implementation
+
+	unitTests.test_tello.location = nullptr;
+	unitTests.test_tello.Tello_move.move = "<move %x %y %z>";
+	unitTests.test_tello.Tello_move.random_value = "<engineering>";
+	
+	
+	int result_2 = test_is_Tello_Created(unitTests.test_tello.location, &unitTests.test_tello.tello_drone) + test_tello_initialization(unitTests.test_tello.tello_drone) + test_virtual_tello_initialization(flight_plan.tello_drone);
+	
+	
+	if(result_1  + result_2 > 0)
 	{
 		return -1;
 	}
